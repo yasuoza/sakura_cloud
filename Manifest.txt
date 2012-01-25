@@ -1,0 +1,7 @@
+.autotest
+History.txt
+Manifest.txt
+README.txt
+Rakefile
+lib/sakura_cloud.rb
+test/test_sakura_cloud.rb
