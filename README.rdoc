@@ -10,7 +10,81 @@ Sakura Cloud Ruby API
 
 == SYNOPSIS:
 
-  Later... (code sample of usage)
+=== Code
+
+ require 'sakura_cloud'
+ require 'pp'
+ 
+ AccessToken="xxxxxxxxxxxx"
+ AccessTokenSecret="xxxxxxxxxx"
+ 
+ ServerKey="xxxxxxxxxx"
+ 
+ cloud=SakuraCloud.new(AccessToken,AccessTokenSecret)
+ server=cloud.server(ServerKey)
+ pp server.profile
+
+=== result
+  {"Server"=>
+  {"ID"=>"xxxxxxxx",
+   "Name"=>"xxxxxxxx",
+   "HostName"=>"xxxxxxxx",
+   "Description"=>"",
+   "CreatedAt"=>"2012-01-24T10:18:05+09:00",
+   "Icon"=>nil,
+   "ServerPlan"=>
+    {"ID"=>1,
+     "Name"=>"プラン1",
+     "CPU"=>1,
+     "MemoryMB"=>2048,
+     "ServiceClass"=>"cloud/plan/1"},
+   "Zone"=>
+    {"ID"=>xxxxx,
+     "Name"=>"is1a",
+     "Description"=>"石狩Aゾーン",
+     "VNCProxy"=>
+      {"HostName"=>"xxx.xxx.xxx.sakura.ad.jp", "IPAddress"=>"xxx.xxx.xxx.xxx"},
+     "FTPServer"=>
+      {"HostName"=>"xxx-xxxx-xxx.sakura.ad.jp", "IPAddress"=>"xxx.xxx.xxx.xxx"},
+     "Region"=>
+      {"ID"=>310,
+       "Name"=>"石狩",
+       "Description"=>"石狩",
+       "NameServers"=>["xxx.xxx.xxx.xxx", "xxx.xxx.xxx.xxx"]}},
+   "Instance"=>
+    {"Server"=>{"ID"=>"xxxxxxxxxxxx"},
+     "Status"=>"up",
+     "BeforeStatus"=>"down",
+     "StatusChangedAt"=>"2012-01-24T10:24:35+09:00",
+     "ModifiedAt"=>"2012-01-24T10:58:45+09:00",
+     "CDROM"=>nil,
+     "CDROMStorage"=>nil},
+   "Disks"=>
+    [{"ID"=>"xxxxxxxxxxxx",
+      "Name"=>"xxxxxxxx",
+      "Connection"=>"ide",
+      "ConnectionOrder"=>1,
+      "ReinstallCount"=>0,
+      "Availability"=>"available",
+      "SizeMB"=>20480,
+      "Storage"=>{"ID"=>"xxxxxxxx", "MountIndex"=>4}}],
+   "Interfaces"=>
+    [{"ID"=>"xxxxxxxxxxxx",
+      "MACAddress"=>"xx:xx:xx:xx",
+      "IPAddress"=>"xxx.xxx.xxx.xxx",
+      "HostName"=>nil,
+      "Switch"=>
+       {"ID"=>"xxxxxxxxxxxx",
+        "Name"=>"xxx.xxx.xxx.xxx",
+        "Scope"=>"shared",
+        "Subnet"=>
+         {"ID"=>nil,
+          "NetworkAddress"=>"xxx.xxx.xxx.xxx",
+          "NetworkMaskLen"=>24,
+          "DefaultRoute"=>"xxx.xxx.xxx.xxx",
+          "Internet"=>{"BandWidthMbps"=>100}}}}],
+   "Tags"=>[]},
+ "is_ok"=>true}
 
 == REQUIREMENTS:
 
