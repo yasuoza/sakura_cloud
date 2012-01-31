@@ -8,8 +8,6 @@ Sakura Cloud Ruby API
 
 == FEATURES/PROBLEMS:
 
-* Later... (list of features or problems)
-
 == SYNOPSIS:
 
   Later... (code sample of usage)
