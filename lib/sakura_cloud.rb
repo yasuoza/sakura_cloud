@@ -2,7 +2,7 @@ require 'json'
 require 'net/https'
 require 'uri'
 class SakuraCloud
-  VERSION = '1.0.0'
+  VERSION = '0.0.1'
   API_URL_BASE='https://secure.sakura.ad.jp/cloud/api/cloud/0.2'
 
   def initialize(api_key, api_secret)
