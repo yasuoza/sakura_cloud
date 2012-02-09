@@ -18,6 +18,10 @@ class SakuraCloud
       @api_server.verify_mode = OpenSSL::SSL::VERIFY_NONE
     end
   end
+  # クラウドサーバを初期化します。
+  def server(server_id)
+    Server.new(@api_key,@api_secret,@api_server,server_id)
+  end
   class Server
     def initialize(api_key,api_secret,api_server,server_id)
       @api_key=api_key
@@ -115,10 +119,6 @@ class SakuraCloud
       end
       response
     end
-  end
-  # クラウドサーバを初期化します。
-  def server(server_id)
-    Server.new(@api_key,@api_secret,@api_server,server_id)
   end
 end
 
