@@ -6,8 +6,8 @@ module SakuraCloud
       api_request(:get,path,option)
     end
     def api_request(method,path,option={})
-      api_key = option[:api_key] || ENV['SAKURA_CLOUD_API_KEY'] || raise(ArgumentError)
-      api_secret = option[:api_secret] || ENV['SAKURA_CLOUD_API_SECRET'] || raise(ArgumentError)
+      api_key = option[:api_key] || API_KEY || raise(ArgumentError)
+      api_secret = option[:api_secret] || API_SECRET || raise(ArgumentError)
       api_uri=URI.parse(API_URL_BASE)
       api_server=Net::HTTP.new(api_uri.host,api_uri.port)
       Net::HTTP.version_1_2
