@@ -7,12 +7,12 @@ module SakuraCloud
   API_URL_BASE='https://secure.sakura.ad.jp/cloud/api/cloud/1.0'
 
   module Request
-    # リクエストをまとめました
-    private
     def get(path,option={})
       api_request(:get,path,option)
     end
     def api_request(method,path,option={})
+      api_key = option[:api_key] || ENV['SAKURA_CLOUD_API_KEY'] || raise(ArgumentError)
+      api_secret = option[:api_secret] || ENV['SAKURA_CLOUD_API_SECRET'] || raise(ArgumentError)
       api_uri=URI.parse(API_URL_BASE)
       api_server=Net::HTTP.new(api_uri.host,api_uri.port)
       Net::HTTP.version_1_2
@@ -32,7 +32,7 @@ module SakuraCloud
         when :post
           request =Net::HTTP::Post.new(API_URL_BASE+path)
         end
-        request.basic_auth @api_key, @api_secret
+        request.basic_auth api_key, api_secret
         request.set_form_data option
         response = http.request(request)
       end
@@ -47,8 +47,6 @@ module SakuraCloud
     include Request
     attr_accessor :status, :is_ok, :result
     def initialize(server_id,opts={})
-      @api_key = opts[:api_key] || ENV['SAKURA_CLOUD_API_KEY'] || raise(ArgumentError)
-      @api_secret = opts[:api_secret] || ENV['SAKURA_CLOUD_API_SECRET'] || raise(ArgumentError)
       @server_id = server_id
       @result=get("/server/#{@server_id}")
       self.merge!(@result["Server"])
