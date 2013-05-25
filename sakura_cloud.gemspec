@@ -4,13 +4,13 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'sakura_cloud/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "sakura_cloud"
+  spec.name          = "Sakura Cloud"
   spec.version       = SakuraCloud::VERSION
-  spec.authors       = ["Takeyuki FUJIOKA"]
-  spec.email         = ["fujioka@rabbix.net"]
-  spec.description   = %q{TODO: Write a gem description}
-  spec.summary       = %q{TODO: Write a gem summary}
-  spec.homepage      = ""
+  spec.authors       = ["Takeyuki FUJIOKA", "Yasuharu OZAKI"]
+  spec.email         = ["xibbar@gmail.com"]
+  spec.description   = %q{Sakura Cloud API Tool}
+  spec.summary       = %q{Sakura Cloud API Tool}
+  spec.homepage      = "http://github.com/xibbar/sakura_cloud"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
