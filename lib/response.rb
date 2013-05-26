@@ -1,23 +1,31 @@
+require 'multi_json'
+
 module SakuraCloud
-  class Server < Hash
-    include Request
-    attr_accessor :status, :is_ok, :result
-    def initialize(server_id,opts={})
-      @server_id = server_id
-      @result=get("/server/#{@server_id}")
-      self.merge!(@result["Server"])
-      self["is_ok"]=@result["is_ok"]
-      @result["Server"].each do |key,value|
-        self.class.class_eval{define_method(key){self[key]}}
-      end
-    end
-    def is_ok
-      self["is_ok"]
-    end
-    def monitor
-      @monitor ||= get("/server/#{@server_id}/monitor")
+  class Response
+    def self.new(json_response_str)
+      json = MultiJson.decode(json_response_str)
+      _response = super()
+      _response.methodnize(json)
     end
 
+    def methodnize(hash_obj)
+      unless hash_obj.respond_to?(:map)
+        hash_obj
+      else
+        values =
+          hash_obj.map do |k, v|
+            if v.is_a?(Array)
+              v.map { |_v| methodnize(_v) }
+            elsif v.is_a?(Hash)
+              methodnize(v)
+            else
+              v
+            end
+          end
+        klass = Struct.new(*hash_obj.keys.map(&:to_sym))
+        klass.new(*values)
+      end
+    end
   end
 end
 
