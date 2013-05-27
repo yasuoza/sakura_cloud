@@ -2,8 +2,10 @@ module SakuraCloud
   API_URL_BASE='https://secure.sakura.ad.jp/cloud/api/cloud/1.0'
 
   module Request
-    def get(path,option={})
-      api_request(:get,path,option)
+    %w(get post put delete).each do |m|
+      define_method(m) do |path, option={}|
+        api_request(m.to_sym,path,option)
+      end
     end
     def api_request(method,path,option={})
       api_key = option[:api_key] || API_KEY || raise(ArgumentError)
