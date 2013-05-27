@@ -6,8 +6,6 @@ require 'uri'
 
 load File.join(ENV['HOME'], ".sakura_cloud.rb")
 
-require_relative 'request.rb'
-require_relative 'response.rb'
+require_relative 'sakura_cloud/request.rb'
+require_relative 'sakura_cloud/response.rb'
 
-if $0 == __FILE__
-end
