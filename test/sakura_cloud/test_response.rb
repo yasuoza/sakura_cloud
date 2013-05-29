@@ -34,4 +34,11 @@ class SakuraCloud::ResponseTest < MiniTest::Unit::TestCase
     assert_equal response.servers.first.instance.server.id, "112500052062"
     assert_equal response.servers.first.instance.cdromstorage.id, "3100195002"
   end
+
+  def test_get_server_response
+    failed_response_body = 'Hello failed response!'
+    response = SakuraCloud::Response.new(failed_response_body)
+    assert !response.is_ok
+    assert_equal response.body, failed_response_body
+  end
 end

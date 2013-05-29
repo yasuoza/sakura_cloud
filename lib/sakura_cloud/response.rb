@@ -3,7 +3,14 @@ require 'multi_json'
 module SakuraCloud
   class Response
     def self.new(json_response_str)
-      methodnize(MultiJson.decode(json_response_str))
+      decoded_json =
+        begin
+          MultiJson.decode(json_response_str)
+        rescue
+          {is_ok: false, body: json_response_str}
+        end
+
+      methodnize(decoded_json)
     end
 
     private

@@ -9,6 +9,7 @@ rescue Bundler::BundlerError => e
 end
 
 require 'minitest/autorun'
+require 'webmock/minitest'
 Dir[File.join(File.dirname(__FILE__), 'support/**/*.rb')].each {|f| require f}
 
 stub_api_config_file!
