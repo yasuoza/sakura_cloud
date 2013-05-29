@@ -6,6 +6,8 @@ module SakuraCloud
       methodnize(MultiJson.decode(json_response_str))
     end
 
+    private
+
     def self.methodnize(maybe_hash_obj=@decoded_json)
       if maybe_hash_obj.respond_to?(:map)
         values =
