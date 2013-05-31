@@ -14,7 +14,7 @@ module SakuraCloud
       api_server=Net::HTTP.new(api_uri.host,api_uri.port)
       Net::HTTP.version_1_2
       if api_uri.scheme=="https"
-        api_server.use_ssl=true 
+        api_server.use_ssl=true
         api_server.verify_mode = OpenSSL::SSL::VERIFY_NONE
       end
       response=nil
@@ -33,11 +33,7 @@ module SakuraCloud
         request.set_form_data option
         response = http.request(request)
       end
-      begin
-        JSON.parse(response.body)
-      rescue
-        response
-      end
+      response.body
     end
   end
 end
