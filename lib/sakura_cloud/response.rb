@@ -1,4 +1,6 @@
 require 'multi_json'
+require_relative 'string_util'
+require_relative 'symbol_util'
 
 module SakuraCloud
   class Response
@@ -27,7 +29,7 @@ module SakuraCloud
               v
             end
           end
-        Hash[maybe_hash_obj.keys.map(&:downcase).map(&:to_sym).zip(values)]
+        Hash[maybe_hash_obj.keys.map(&:underscorenize).map(&:to_sym).zip(values)]
       else
         maybe_hash_obj
       end
