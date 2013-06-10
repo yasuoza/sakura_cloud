@@ -28,7 +28,7 @@ module SakuraCloud
               v
             end
           end
-        Hash[maybe_hash_obj.keys.map(&:underscorenize).map(&:to_sym).zip(values)]
+        Hash[maybe_hash_obj.keys.map(&:underscore).map(&:to_sym).zip(values)]
       else
         maybe_hash_obj
       end

@@ -22,7 +22,7 @@ module SakuraCloud
       extend Request
       def self.api_class
         return @api_class if @api_class
-        @api_class ||= self.to_s.scan(/[A-Za-z0-9_]+$/)[0].underscorize
+        @api_class ||= self.to_s.scan(/[A-Za-z0-9_]+$/)[0].underscore
       end
       def self.all
         Response.new(get("/#{api_class}"))

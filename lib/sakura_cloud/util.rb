@@ -1,5 +1,5 @@
 class String
-  def underscorize
+  def underscore
     if self == 'ID'
       self.downcase
     else
@@ -17,7 +17,7 @@ class String
 end
 
 class Symbol
-  def underscorenize
+  def underscore
     if self == 'ID'
       self.downcase
     else
