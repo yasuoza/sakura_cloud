@@ -1,6 +1,5 @@
 require 'multi_json'
-require_relative 'string_util'
-require_relative 'symbol_util'
+require_relative 'util'
 
 module SakuraCloud
   class Response
