@@ -1,7 +1,3 @@
-require_relative 'request'
-require_relative 'response'
-require_relative 'plan'
-
 module SakuraCloud
   class Server
     extend Request
@@ -11,20 +7,13 @@ module SakuraCloud
     attr_reader *PROPERTIES
 
     def self.all
-      Response.new(get('/server'))[:servers].map do |server|
-        new server
+      Response.new(get('/server'))[:servers].map do |server_info|
+        new.tap do |server|
+          self::PROPERTIES.map do |key|
+            server.instance_variable_set("@#{key}", server_info[key])
+          end
+        end
       end
-    end
-
-    def initialize(server_info)
-      @_server_info = server_info
-      self.class::PROPERTIES.map do |key|
-        instance_variable_set("@#{key}", server_info[key])
-      end
-    end
-
-    def plan
-      @plan ||= Plan.new(@_server_info[:server_plan])
     end
   end
 end
