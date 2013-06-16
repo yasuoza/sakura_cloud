@@ -1,27 +1,37 @@
 require 'test_helper'
+require 'sakura_cloud'
 require 'sakura_cloud/plan'
 
 class SakuraCloud::PlanTest < MiniTest::Unit::TestCase
   include StubJsonResponse
   include StubAPIRequest
 
-  def test_init_with_mininum_val
-    plan = SakuraCloud::Plan.new
-
-    assert_equal plan.id, SakuraCloud::Plan::MINIMUM_PLAN[:id]
-    assert_equal plan.name, SakuraCloud::Plan::MINIMUM_PLAN[:name]
-    assert_equal plan.cpu, SakuraCloud::Plan::MINIMUM_PLAN[:cpu]
-    assert_equal plan.memory_mb, SakuraCloud::Plan::MINIMUM_PLAN[:memory_mb]
-    assert_equal plan.server_class, SakuraCloud::Plan::MINIMUM_PLAN[:server_class]
-    assert_equal plan.availability, SakuraCloud::Plan::MINIMUM_PLAN[:availability]
+  def setup
+    stub_api_request!(:get, '/product/server')
   end
 
-  def test_with_custom_val
-    plan = SakuraCloud::Plan.new id: 2, cpu: 2, memory_mb: 4096
+  def test_init_with_mininum_plan
+    plan = SakuraCloud::Plan.new
 
-    assert_equal plan.id, 2
-    assert_equal plan.cpu, 2
-    assert_equal plan.memory_mb, 4096
+    assert_equal plan.id, SakuraCloud::Plan::PLANS.first[:id]
+    assert_equal plan.name, SakuraCloud::Plan::PLANS.first[:name]
+    assert_equal plan.cpu, SakuraCloud::Plan::PLANS.first[:cpu]
+    assert_equal plan.availability, SakuraCloud::Plan::PLANS.first[:availability]
+  end
+
+  def test_with_my_plan
+    plan = SakuraCloud::Plan.new id: 3
+
+    assert_equal plan.id, SakuraCloud::Plan::PLANS[2][:id]
+    assert_equal plan.name, SakuraCloud::Plan::PLANS[2][:name]
+    assert_equal plan.cpu, SakuraCloud::Plan::PLANS[2][:cpu]
+    assert_equal plan.availability, SakuraCloud::Plan::PLANS[2][:availability]
+  end
+
+  def test_raise_no_plan_error
+    assert_raises SakuraCloud::NoServerPlanError do
+      SakuraCloud::Plan.new id: 100
+    end
   end
 end
 
