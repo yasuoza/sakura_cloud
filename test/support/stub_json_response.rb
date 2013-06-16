@@ -4,8 +4,8 @@ module StubJsonResponse
   end
 
   def stubbed_response(method='GET', endpoint)
-    endpoint.unshift('/') unless endpoint.start_with?('/')
-    endpoint.gsub!('/', "/#{method.downcase}_")
-    File.read(File.dirname(__FILE__) + "/../fixtures/responses#{endpoint}.json").chomp
+    endpoint = method.downcase + '_' + endpoint.sub(/^\//, '').gsub('/', '_')
+
+    File.read(File.dirname(__FILE__) + "/../fixtures/responses/#{endpoint}.json").chomp
   end
 end
