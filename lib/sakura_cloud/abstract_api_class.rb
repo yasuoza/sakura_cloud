@@ -37,6 +37,7 @@ module SakuraCloud
 
         const_set("Plan", Class.new do
           attr_reader *plans.first.keys
+          @__fetched_plans = plans
 
           class_eval <<-METHOD, __FILE__, __LINE__
             def self.all

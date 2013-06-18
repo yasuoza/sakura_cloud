@@ -14,7 +14,6 @@ class SakuraCloud::ServerAPITest < MiniTest::Unit::TestCase
     stub_api_request!(:get, '/product/disk')
 
     require 'sakura_cloud'
-    require 'sakura_cloud/server'
   end
 
   def test_list_servers
