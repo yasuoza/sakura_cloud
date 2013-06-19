@@ -1,5 +1,5 @@
 require 'test_helper'
-
+require 'core_ext/all'
 require 'sakura_cloud/response'
 
 class SakuraCloud::ResponseTest < MiniTest::Unit::TestCase
