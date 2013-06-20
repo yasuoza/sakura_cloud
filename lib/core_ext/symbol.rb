@@ -1,3 +1,5 @@
+require_relative 'string'
+
 class Symbol
   def underscore
     self.to_s.underscore.to_sym
