@@ -1,5 +1,5 @@
 module SakuraCloud
-  class Disk
+  class Disk < AbstractModel
 
     class Plan
       attr_reader :type, :size_mb
@@ -16,12 +16,19 @@ module SakuraCloud
         self.class.instance_variable_get('@__fetched_plans')[opts[:index]].map do |plan_key, plan_val|
           instance_variable_set("@#{plan_key}", plan_val)
         end
+
         @size = opts[:size]
         @type = opts[:index] == 0 ? :ssd : :hdd
         @size_mb = 2 ** 10 * opts[:size]
       end
     end
 
+    PROPERTIES = [:id, :name, :connection, :connection_order, :description,
+                  :reinstall_count, :size_mb, :mibrated_mb, :created_at]
+    CREATE_REQUIREMENTS = [:name]
+
+    attr_reader   *(PROPERTIES - CREATE_REQUIREMENTS)
+    attr_accessor *CREATE_REQUIREMENTS
 
     def initialize(opts={type: :hdd})
       unless [:hdd, :ssd].include?(opts[:type])

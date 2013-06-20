@@ -52,6 +52,13 @@ class SakuraCloud::ServerAPITest < MiniTest::Unit::TestCase
     assert_equal disk.size_mb, 2 ** 10 * 100
   end
 
+  def test_assign_disk_name
+    disk = SakuraCloud::Disk.new
+    disk.name = 'my disk'
+
+    assert_equal disk.name, 'my disk'
+  end
+
   def test_raise_no_plan_error_for_type
     assert_raises SakuraCloud::Disk::NoPlanError do
       SakuraCloud::Disk.new(:type => :ssh)
@@ -62,5 +69,18 @@ class SakuraCloud::ServerAPITest < MiniTest::Unit::TestCase
     assert_raises SakuraCloud::Disk::NoPlanError do
       SakuraCloud::Disk.new(:type => :ssd, :size => 150)
     end
+  end
+
+  def test_raise_on_save
+    disk = SakuraCloud::Disk.new
+    assert_raises ArgumentError do
+      disk.save
+    end
+  end
+
+  def test_nothing_raised_on_save
+    disk = SakuraCloud::Disk.new
+    disk.name = 'special disk'
+    disk.save
   end
 end

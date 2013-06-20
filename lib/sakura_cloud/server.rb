@@ -1,10 +1,10 @@
 module SakuraCloud
-  class Server
-    extend Request
-
+  class Server < SakuraCloud::AbstractModel
     PROPERTIES = [:id, :name, :hostname, :index, :description, :serverclass, :created_at, :icon]
+    CREATE_REQUIREMENTS = [:name]
 
-    attr_reader *PROPERTIES
+    attr_reader   *(PROPERTIES - CREATE_REQUIREMENTS)
+    attr_accessor *CREATE_REQUIREMENTS
 
     def self.all
       Response.new(get('/server'))[:servers].map do |server_info|

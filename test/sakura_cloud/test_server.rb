@@ -27,35 +27,58 @@ class SakuraCloud::ServerAPITest < MiniTest::Unit::TestCase
   end
 
   def test_init_with_mininum_plan
-    server = SakuraCloud::Server.new
+    server = SakuraCloud::Server.new(name: 'minimum server')
 
     assert_equal server.plan.id, SakuraCloud::Server::Plan.all.first.id
     assert_equal server.plan.name, SakuraCloud::Server::Plan.all.first.name
     assert_equal server.plan.cpu, SakuraCloud::Server::Plan.all.first.cpu
     assert_equal server.plan.availability, SakuraCloud::Server::Plan.all.first.availability
+    assert_equal server.name, 'minimum server'
   end
 
   def test_init_with_my_plan
-    server = SakuraCloud::Server.new(plan_id: 3)
+    server = SakuraCloud::Server.new(plan_id: 3, name: 'my server')
 
     assert_equal server.plan.id, SakuraCloud::Server::Plan.all[2].id
     assert_equal server.plan.name, SakuraCloud::Server::Plan.all[2].name
     assert_equal server.plan.cpu, SakuraCloud::Server::Plan.all[2].cpu
     assert_equal server.plan.availability, SakuraCloud::Server::Plan.all[2].availability
+    assert_equal server.name, 'my server'
   end
 
   def test_init_with_one_of_server_plan
-    server = SakuraCloud::Server.new(plan_id: SakuraCloud::Server::Plan.all[3].id)
+    server = SakuraCloud::Server.new(plan_id: SakuraCloud::Server::Plan.all[3].id, name: 'third server')
 
     assert_equal server.plan.id, SakuraCloud::Server::Plan.all[3].id
     assert_equal server.plan.name, SakuraCloud::Server::Plan.all[3].name
     assert_equal server.plan.cpu, SakuraCloud::Server::Plan.all[3].cpu
     assert_equal server.plan.availability, SakuraCloud::Server::Plan.all[3].availability
+    assert_equal server.name, 'third server'
   end
 
-  def test_raise_no_plan_error
+  def test_assign_server_name
+    server = SakuraCloud::Server.new
+    server.name = 'my server'
+
+    assert_equal server.name, 'my server'
+  end
+
+  def test_raise_no_plan_error_when_plan_id_is_out_of_service
     assert_raises SakuraCloud::Server::NoPlanError do
-      SakuraCloud::Server.new plan_id: 100
+      SakuraCloud::Server.new plan_id: 100, name: 'failing server'
     end
+  end
+
+  def test_raise_on_save
+    server = SakuraCloud::Server.new
+    assert_raises ArgumentError do
+      server.save
+    end
+  end
+
+  def test_nothing_raised_on_save
+    server = SakuraCloud::Server.new
+    server.name = 'special server'
+    server.save
   end
 end

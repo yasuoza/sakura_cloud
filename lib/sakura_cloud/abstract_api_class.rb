@@ -1,8 +1,9 @@
-require_relative 'request'
+require_relative 'abstract_model'
 
 module SakuraCloud
-  products = %w(server disk internet)
-
+  # Generate sakura cloud api model.
+  # If the model has product information, defines Plan class under its class namespace.
+  # All models inherit SakuraCloud::AbstractModel.
   %w[
      server
      disk
@@ -20,17 +21,10 @@ module SakuraCloud
      region
      zone
   ].each do |class_name|
-    const_set(class_name.camelize, Class.new do
-      extend Request
-      def self.api_class
-        return @api_class if @api_class
-        @api_class ||= self.to_s.scan(/[A-Za-z0-9_]+$/)[0].underscore
-      end
-      def self.all
-        Response.new(get("/#{api_class}"))
-      end
-
-      if products.include?(class_name)
+    const_set(class_name.camelize, Class.new(AbstractModel) do
+      # Define product information methods
+      # See more: http://developer.sakura.ad.jp/cloud/api/1.0/product/
+      if %w(server disk internet).include?(class_name)
         plans = Response.new(get("/product/#{class_name}"))[:"#{class_name}_plans"].select do |plan|
           plan[:availability] == 'available'
         end
@@ -57,16 +51,6 @@ module SakuraCloud
         class_eval <<-METHOD, __FILE__, __LINE__
           class NoPlanError < ArgumentError
             def initialize(msg='Given plan_id is out of #{class_name} plan') ; super(msg) ; end
-          end
-
-          def initialize(opts={plan_id: 1})
-            @plan_id = opts[:plan_id]
-
-            raise NoPlanError if self.class::Plan.all.select {|p| p.id == opts[:plan_id]}.empty?
-          end
-
-          def plan
-            @plan ||= Plan.new(plan_id: @plan_id)
           end
         METHOD
       end
