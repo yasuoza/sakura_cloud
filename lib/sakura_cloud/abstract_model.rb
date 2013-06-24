@@ -1,5 +1,8 @@
 module SakuraCloud
   class AbstractModel
+    PROPERTIES = []
+    CREATE_REQUIREMENTS = []
+
     extend Request
 
     def self.api_class

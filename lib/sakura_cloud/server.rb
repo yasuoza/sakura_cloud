@@ -1,6 +1,6 @@
 module SakuraCloud
   class Server < SakuraCloud::AbstractModel
-    PROPERTIES = [:id, :name, :hostname, :index, :description, :serverclass, :created_at, :icon]
+    PROPERTIES = [:id, :name, :host_name, :index, :description, :service_class, :created_at, :icon]
     CREATE_REQUIREMENTS = [:name]
 
     attr_reader   *(PROPERTIES - CREATE_REQUIREMENTS)
