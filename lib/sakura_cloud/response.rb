@@ -10,19 +10,19 @@ module SakuraCloud
           {is_ok: false, body: json_response_str}
         end
 
-      methodnize(@decoded_json)
+      hashnize(@decoded_json)
     end
 
     private
 
-    def self.methodnize(maybe_hash_obj=@decoded_json)
+    def self.hashnize(maybe_hash_obj=@decoded_json)
       if maybe_hash_obj.respond_to?(:map)
         values =
           maybe_hash_obj.map do |k, v|
             if v.is_a?(Array)
-              v.map { |_v| methodnize(_v) }
+              v.map { |_v| hashnize(_v) }
             elsif v.is_a?(Hash)
-              methodnize(v)
+              hashnize(v)
             else
               v
             end

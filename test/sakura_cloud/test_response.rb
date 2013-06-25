@@ -5,7 +5,7 @@ require 'sakura_cloud/response'
 class SakuraCloud::ResponseTest < MiniTest::Unit::TestCase
   include StubJsonResponse
 
-  def test_methodnize
+  def test_hashnize
     hash_obj = {
       A: 1,
       B: {
