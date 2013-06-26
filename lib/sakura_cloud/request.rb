@@ -55,9 +55,9 @@ module SakuraCloud
         values =
           hash_obj.map do |k, v|
             if v.is_a?(Array)
-              v.map { |_v| paramnize(_v) }
+              v.map { |_v| queryfy(_v) }
             elsif v.is_a?(Hash)
-              paramnize(v)
+              queryfy(v)
             else
               v
             end
