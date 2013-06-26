@@ -26,6 +26,18 @@ class SakuraCloud::ServerAPITest < MiniTest::Unit::TestCase
     assert_equal servers.first.description, ""
   end
 
+  def test_list_servers_with_query_params
+    stub_api_request!(:get, '/server')
+    stub_api_request!(:get, '/server?%7B%22Count%22:1,%22From%22:1%7D') #=> /servers?{"Count":1,"From":1}
+
+    all_servers = SakuraCloud::Server.all
+    queried_servers = SakuraCloud::Server.all(count: 1, from: 1)
+
+    assert_equal queried_servers.count, 1
+    assert_equal queried_servers.first.id, all_servers[1].id
+    assert_equal queried_servers.first.name, all_servers[1].name
+  end
+
   def test_init_with_mininum_plan
     server = SakuraCloud::Server.new(name: 'minimum server')
 

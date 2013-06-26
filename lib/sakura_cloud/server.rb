@@ -6,8 +6,8 @@ module SakuraCloud
     attr_reader   *(PROPERTIES - CREATE_REQUIREMENTS)
     attr_accessor *CREATE_REQUIREMENTS
 
-    def self.all
-      Response.new(get('/server'))[:servers].map do |server_info|
+    def self.all(opts={})
+      Response.new(get('/server', opts))[:servers].map do |server_info|
         new.tap do |server|
           self::PROPERTIES.map do |key|
             server.instance_variable_set("@#{key}", server_info[key])
