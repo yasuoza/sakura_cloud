@@ -1,7 +1,7 @@
 require 'test_helper'
 require 'core_ext/string'
 
-class StringExtensionTest < MiniTest::Unit::TestCase
+class StringExtensionTest < MiniTest::Test
   def test_string_underscore
     assert_equal 'ID'.underscore,          'id'
     assert_equal 'CPU'.underscore,         'cpu'

@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class SakuraCloud::ServerAPITest < MiniTest::Unit::TestCase
+class SakuraCloud::ServerAPITest < MiniTest::Test
   include StubJsonResponse
   include StubAPIRequest
 

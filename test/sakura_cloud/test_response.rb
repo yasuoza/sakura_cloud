@@ -2,7 +2,7 @@ require 'test_helper'
 require 'core_ext/all'
 require 'sakura_cloud/response'
 
-class SakuraCloud::ResponseTest < MiniTest::Unit::TestCase
+class SakuraCloud::ResponseTest < MiniTest::Test
   include StubJsonResponse
 
   def test_hashnize

@@ -2,7 +2,7 @@ require 'test_helper'
 require 'core_ext/string'
 require 'core_ext/symbol'
 
-class SymbolExtensionTest < MiniTest::Unit::TestCase
+class SymbolExtensionTest < MiniTest::Test
   def test_symbol_underscore
     assert_equal :ID.underscore,          :id
     assert_equal :CPU.underscore,         :cpu
