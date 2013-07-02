@@ -37,7 +37,6 @@ module SakuraCloud
           request = Net::HTTP::Post.new(api_endpoint)
           request.body = params(option) unless option.empty?
         end
-        puts params(option)
         request.basic_auth(api_key, api_secret)
         response = http.request(request)
       end
