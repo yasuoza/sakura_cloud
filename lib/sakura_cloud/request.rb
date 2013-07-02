@@ -37,6 +37,7 @@ module SakuraCloud
           request = Net::HTTP::Post.new(api_endpoint)
           request.body = params(option) unless option.empty?
         end
+        puts params(option)
         request.basic_auth(api_key, api_secret)
         response = http.request(request)
       end
@@ -62,7 +63,7 @@ module SakuraCloud
               v
             end
           end
-        Hash[hash_obj.keys.map(&:camelize).map(&:to_s).zip(values)]
+        Hash[hash_obj.keys.map(&:to_s).zip(values)]
       else
         hash_obj
       end
