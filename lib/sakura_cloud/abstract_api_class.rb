@@ -53,6 +53,11 @@ module SakuraCloud
             def initialize(msg='Given plan_id is out of #{class_name} plan') ; super(msg) ; end
           end
         METHOD
+        SakuraCloud.const_set(class_name.camelize+"Array", Class.new(Array) do
+          def inspect
+            "#<#{self.class}: #{instance_variables.map{|k|"#{k}=#{instance_variable_get(k)}"}.join(', ')}: #{super}>"
+          end
+        end)
       end
     end )
   end

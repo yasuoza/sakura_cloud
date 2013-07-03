@@ -9,8 +9,22 @@ module SakuraCloud
       @api_class ||= self.to_s.scan(/[A-Za-z0-9_]+$/)[0].underscore
     end
 
-    def self.all
-      Response.new(get("/#{api_class}"))
+    def self.all(opts = {})
+      response=Response.new(get("/#{api_class}", opts))
+      instances=SakuraCloud.const_get("#{api_class.camelize}Array").new
+      (response.keys-["#{api_class}s".to_sym]).each do |key|
+        instances.instance_variable_set("@#{key}", response[key])
+        instances.class.class_eval { attr_accessor key }
+      end
+      response["#{api_class}s".to_sym].each do |instance|
+        instances << new.tap do |ins|
+          instance.each do |key, value|
+            ins.instance_variable_set("@#{key}", value)
+            ins.class.class_eval { attr_accessor key }
+          end
+        end
+      end
+      instances
     end
 
     def initialize(opts={})
