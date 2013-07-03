@@ -12,7 +12,7 @@ class String
   end
 
   def camelize
-    if self == 'id' || self == 'cpu'
+    if [/^id$/i, /^cpu$/i, /^cdrom$/i].find{|r| self.match(r) }
       self.upcase
     else
       self.split('/').map{|s| s.split('_').map{|t| t == 'mb' ? t.upcase : t.capitalize}.join}.join('::')
