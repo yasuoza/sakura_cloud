@@ -62,7 +62,7 @@ module SakuraCloud
               v
             end
           end
-        Hash[hash_obj.keys.map(&:to_s).zip(values)]
+        Hash[hash_obj.keys.map(&:camelize).map(&:to_s).zip(values)]
       else
         hash_obj
       end
