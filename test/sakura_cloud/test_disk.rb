@@ -70,17 +70,4 @@ class SakuraCloud::ServerAPITest < MiniTest::Test
       SakuraCloud::Disk.new(:type => :ssd, :size => 150)
     end
   end
-
-  def test_raise_on_save
-    disk = SakuraCloud::Disk.new
-    assert_raises ArgumentError do
-      disk.save
-    end
-  end
-
-  def test_nothing_raised_on_save
-    disk = SakuraCloud::Disk.new
-    disk.name = 'special disk'
-    disk.save
-  end
 end

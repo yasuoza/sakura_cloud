@@ -74,23 +74,4 @@ class SakuraCloud::ServerAPITest < MiniTest::Test
 
     assert_equal server.name, 'my server'
   end
-
-  def test_raise_no_plan_error_when_plan_id_is_out_of_service
-    assert_raises SakuraCloud::Server::NoPlanError do
-      SakuraCloud::Server.new plan_id: 100, name: 'failing server'
-    end
-  end
-
-  def test_raise_on_save
-    server = SakuraCloud::Server.new
-    assert_raises ArgumentError do
-      server.save
-    end
-  end
-
-  def test_nothing_raised_on_save
-    server = SakuraCloud::Server.new
-    server.name = 'special server'
-    server.save
-  end
 end

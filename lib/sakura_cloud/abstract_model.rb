@@ -1,7 +1,5 @@
 module SakuraCloud
   class AbstractModel
-    PROPERTIES = []
-    CREATE_REQUIREMENTS = []
 
     extend Request
 
@@ -24,14 +22,14 @@ module SakuraCloud
           end
         end
       end
+
       instances
     end
 
     def initialize(opts={})
       if defined?(self.class::Plan)
         # Ensure plan_id not to be nil
-        opts[:plan_id] ||= 1
-        raise self.class::NoPlanError unless self.class::Plan.all.find {|p| p.id == opts[:plan_id]}
+        opts[:plan_id] ||= self.class::Plan.all.first.id
       end
 
       opts.map do |k, v|
