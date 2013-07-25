@@ -1,7 +1,10 @@
 module SakuraCloud
   class AbstractModel
 
+    attr_reader :errors
+
     extend Request
+    include Request
 
     def self.api_class
       @api_class ||= self.to_s.scan(/[A-Za-z0-9_]+$/)[0].underscore
@@ -29,6 +32,8 @@ module SakuraCloud
     end
 
     def initialize(opts={})
+      @errors = []
+
       if defined?(self.class::Plan)
         # Ensure plan_id not to be nil
         opts[:plan_id] ||= self.class::Plan.all.first.id
@@ -48,13 +53,7 @@ module SakuraCloud
     end
 
     def save
-      self.class::CREATE_REQUIREMENTS.each do |prop_key|
-        raise ArgumentError, prop_key.to_s + ' property is requred' unless __send__(prop_key.to_sym)
-      end
-
-      # TODO: POST instance info
-
-      true
+      raise NoMethodError, "#{self.class}#save is not implemented"
     end
   end
 end
