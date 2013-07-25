@@ -8,12 +8,14 @@ module SakuraCloud
     end
 
     def self.all(opts = {})
-      response=Response.new(get("/#{api_class}", opts))
-      instances=SakuraCloud.const_get("#{api_class.camelize}Array").new
+      response = Response.new(get("/#{api_class}", opts))
+      instances = SakuraCloud.const_get("#{api_class.camelize}Array").new
+
       (response.keys-["#{api_class}s".to_sym]).each do |key|
         instances.instance_variable_set("@#{key}", response[key])
         instances.class.class_eval { attr_accessor key }
       end
+
       response["#{api_class}s".to_sym].each do |instance|
         instances << new.tap do |ins|
           instance.each do |key, value|

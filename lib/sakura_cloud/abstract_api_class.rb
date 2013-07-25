@@ -1,3 +1,4 @@
+require 'delegate'
 require_relative 'abstract_model'
 
 module SakuraCloud
@@ -22,6 +23,18 @@ module SakuraCloud
      zone
   ].each do |class_name|
     const_set(class_name.camelize, Class.new(AbstractModel) do
+
+      # Define list of instances class, like `ServerArray`, `DiskArray` and so on.
+      SakuraCloud.const_set(class_name.camelize+"Array", Class.new(DelegateClass(Array)) do
+        def initialize(list=[])
+          super(list)
+        end
+
+        def inspect
+          "#<#{self.class}: #{instance_variables.map{|k|"#{k}=#{instance_variable_get(k)}"}.join(', ')}: #{super}>"
+        end
+      end)
+
       # Define product information methods
       # See more: http://developer.sakura.ad.jp/cloud/api/1.0/product/
       if %w(server disk internet).include?(class_name)
@@ -53,12 +66,8 @@ module SakuraCloud
             def initialize(msg='Given plan_id is out of #{class_name} plan') ; super(msg) ; end
           end
         METHOD
-        SakuraCloud.const_set(class_name.camelize+"Array", Class.new(Array) do
-          def inspect
-            "#<#{self.class}: #{instance_variables.map{|k|"#{k}=#{instance_variable_get(k)}"}.join(', ')}: #{super}>"
-          end
-        end)
-      end
+      end # endif
+
     end )
   end
 end
