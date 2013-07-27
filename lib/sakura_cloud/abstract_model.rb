@@ -20,7 +20,7 @@ module SakuraCloud
       end
 
       response["#{api_class}s".to_sym].each do |instance|
-        instances << new.tap do |ins|
+        instances << allocate.init_with_code.tap do |ins|
           instance.each do |key, value|
             ins.instance_variable_set("@#{key}", value)
             ins.class.class_eval { attr_accessor key }
@@ -31,17 +31,30 @@ module SakuraCloud
       instances
     end
 
-    def initialize(opts={})
+    def initialize(attributes={})
       @errors = []
+      @__new_instance = true
 
       if defined?(self.class::Plan)
         # Ensure plan_id not to be nil
-        opts[:plan_id] ||= self.class::Plan.all.first.id
+        attributes[:plan_id] ||= self.class::Plan.all.first.id
       end
 
-      opts.map do |k, v|
+      init_internals(attributes)
+    end
+
+    def init_internals(attributes={})
+      attributes.map do |k, v|
         instance_variable_set('@' + k.to_s, v)
       end
+    end
+
+    def init_with_code(attributes={})
+      @__new_instance = false
+
+      init_internals(attributes)
+
+      self
     end
 
     def plan
@@ -54,6 +67,10 @@ module SakuraCloud
 
     def save
       raise NoMethodError, "#{self.class}#save is not implemented"
+    end
+
+    def new_record?
+      @__new_instance
     end
   end
 end

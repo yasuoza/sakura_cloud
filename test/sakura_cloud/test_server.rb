@@ -24,6 +24,7 @@ class SakuraCloud::ServerAPITest < MiniTest::Test
     assert_equal servers.first.id, "112500052062"
     assert_equal servers.first.name, "saba1"
     assert_equal servers.first.description, ""
+    assert       !servers.first.new_record?
   end
 
   def test_list_servers_with_query_params
@@ -36,6 +37,7 @@ class SakuraCloud::ServerAPITest < MiniTest::Test
     assert_equal queried_servers.count, 1
     assert_equal queried_servers.first.id, all_servers[1].id
     assert_equal queried_servers.first.name, all_servers[1].name
+    assert       !queried_servers.first.new_record?
   end
 
   def test_init_with_mininum_plan
@@ -46,6 +48,7 @@ class SakuraCloud::ServerAPITest < MiniTest::Test
     assert_equal server.plan.cpu, SakuraCloud::Server::Plan.all.first.cpu
     assert_equal server.plan.availability, SakuraCloud::Server::Plan.all.first.availability
     assert_equal server.name, 'minimum server'
+    assert       server.new_record?
   end
 
   def test_init_with_my_plan
@@ -56,6 +59,7 @@ class SakuraCloud::ServerAPITest < MiniTest::Test
     assert_equal server.plan.cpu, SakuraCloud::Server::Plan.all[2].cpu
     assert_equal server.plan.availability, SakuraCloud::Server::Plan.all[2].availability
     assert_equal server.name, 'my server'
+    assert       server.new_record?
   end
 
   def test_init_with_one_of_server_plan
@@ -66,6 +70,7 @@ class SakuraCloud::ServerAPITest < MiniTest::Test
     assert_equal server.plan.cpu, SakuraCloud::Server::Plan.all[3].cpu
     assert_equal server.plan.availability, SakuraCloud::Server::Plan.all[3].availability
     assert_equal server.name, 'third server'
+    assert       server.new_record?
   end
 
   def test_assign_server_name
@@ -73,5 +78,6 @@ class SakuraCloud::ServerAPITest < MiniTest::Test
     server.name = 'my server'
 
     assert_equal server.name, 'my server'
+    assert       server.new_record?
   end
 end
