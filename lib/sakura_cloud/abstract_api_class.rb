@@ -42,6 +42,10 @@ module SakuraCloud
           plan[:availability] == 'available'
         end
 
+        def plan
+          @plan ||= self.class::Plan.new
+        end
+
         const_set("Plan", Class.new do
           attr_reader *plans.first.keys
           @__fetched_plans = plans
@@ -49,13 +53,18 @@ module SakuraCloud
           class_eval <<-METHOD, __FILE__, __LINE__
             def self.all
               @plans ||= #{plans}.map do |plan|
-                new(plan_id: plan[:id])
+                new(id: plan[:id])
               end
             end
 
-            def initialize(opts={plan_id: 1})
-              #{plans}.select {|p| p[:id] == opts[:plan_id]}.first.map do |key, val|
-                self.instance_variable_set('@' + key.to_s, val)
+            def initialize(opts={})
+              opts[:id] ||= opts[:plan_id] || #{plans.first[:id]}
+
+              #TODO: invalid plan handling
+              if plan = #{plans}.select {|p| p[:id] == opts[:id]}.first
+                plan.map do |key, val|
+                  self.instance_variable_set('@' + key.to_s, val)
+                end
               end
             end
           METHOD

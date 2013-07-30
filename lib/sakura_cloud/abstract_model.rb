@@ -23,6 +23,9 @@ module SakuraCloud
         instances << allocate.init_with_code.tap do |ins|
           instance.each do |key, value|
             ins.instance_variable_set("@#{key}", value)
+            if key == :plan || key == :server_plan
+              ins.instance_variable_set('@plan', ins.class::Plan.new(value))
+            end
             ins.class.class_eval { attr_accessor key }
           end
         end
@@ -35,17 +38,21 @@ module SakuraCloud
       @errors = []
       @__new_instance = true
 
-      if defined?(self.class::Plan)
-        # Ensure plan_id not to be nil
-        attributes[:plan_id] ||= self.class::Plan.all.first.id
-      end
-
       init_internals(attributes)
     end
 
     def init_internals(attributes={})
       attributes.map do |k, v|
         instance_variable_set('@' + k.to_s, v)
+      end
+
+      if defined?(self.class::Plan)
+        # Assign server plan
+        @plan = if attributes[:server_plan]
+                  self.class::Plan.new(attributes[:server_plan])
+                else
+                  self.class::Plan.new(attributes)
+                end
       end
     end
 
@@ -55,10 +62,6 @@ module SakuraCloud
       init_internals(attributes)
 
       self
-    end
-
-    def plan
-      @plan ||= self.class::Plan.new(plan_id: @plan_id)
     end
 
     def create(props={})
