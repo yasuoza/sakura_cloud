@@ -4,14 +4,14 @@ module SakuraCloud
 
     def save
       # Clear previous errors
-      @errors = []
+      @errors = nil
 
       raw_res = new_record? ? create_instance : update_instance
 
       res = Response.new(raw_res)
 
       if res[:is_fatal]
-        @errors << res[:error_msg]
+        (@errors ||= []) << res[:error_msg]
         return false
       end
 

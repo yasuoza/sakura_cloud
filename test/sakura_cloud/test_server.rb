@@ -82,13 +82,24 @@ class SakuraCloud::ServerAPITest < MiniTest::Test
     assert       server.new_record?
   end
 
-  def test_save_server
+  def test_succeed_save_server
     server = SakuraCloud::Server.new
     server.name = 'my_server'
 
     stub_request(:post,  api_endpoint_for('server'))
       .to_return(status: 200, body: stubbed_post_response('success_save_server'))
 
-    assert server.save, 'server.save should return true'
+    assert       server.save, 'server.save should return true'
+    assert_nil   server.errors
+  end
+
+  def test_fail_save_server
+    server = SakuraCloud::Server.new
+
+    stub_request(:post,  api_endpoint_for('server'))
+      .to_return(status: 400, body: stubbed_post_response('fail_save_server'))
+
+    assert       !server.save, 'server.save should return true'
+    assert_equal server.errors.count, 1
   end
 end
