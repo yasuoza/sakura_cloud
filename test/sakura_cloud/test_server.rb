@@ -9,6 +9,7 @@ class SakuraCloud::ServerAPITest < MiniTest::Test
       stub_api_key_secret!
     end
 
+    stub_api_request!(:get, '/zone')
     stub_api_request!(:get, '/product/server')
     stub_api_request!(:get, '/product/internet')
     stub_api_request!(:get, '/product/disk')
