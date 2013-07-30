@@ -3,6 +3,10 @@ module StubJsonResponse
     stubbed_response('GET', endpoint)
   end
 
+  def stubbed_post_response(endpoint)
+    stubbed_response('POST', endpoint)
+  end
+
   def stubbed_response(method='GET', endpoint)
     endpoint = method.downcase + '_' + endpoint.sub(/^\//, '').gsub('/', '_')
 

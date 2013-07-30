@@ -12,4 +12,9 @@ module StubAPIRequest
     stub_request(:get, "https://#{::SakuraCloud::API_KEY}:#{::SakuraCloud::API_SECRET}@secure.sakura.ad.jp/cloud/api/cloud/1.0#{endpoint}")
       .to_return(body: instance_eval("stubbed_#{method}_response(endpoint)"))
   end
+
+  def api_endpoint_for(endpoint)
+    endpoint = '/' + endpoint unless endpoint.start_with?('/')
+    "https://#{::SakuraCloud::API_KEY}:#{::SakuraCloud::API_SECRET}@secure.sakura.ad.jp/cloud/api/cloud/1.0#{endpoint}"
+  end
 end
